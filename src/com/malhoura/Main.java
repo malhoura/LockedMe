@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 
-  static int menuItem, subMenuItem ;
+  static int menuItem, subMenuItem;
   static String searchedFile;
 
   public static void displayMainMenu() {
@@ -27,19 +27,22 @@ public class Main {
   public static void createfile() throws IOException {
     Scanner reader = new Scanner(System.in);
     boolean success = false;
-    System.out.println("Enter path of directory to create");
+    System.out.println(
+        "Enter path of directory to create. Enter nothing if you don't wish to create a new directory.");
     String dir = reader.nextLine();
     // Creating new directory in Java, if it doesn't exists
-    File directory = new File(dir);
-    if (directory.exists()) {
-      System.out.println("Directory already exists ...");
-    } else {
-      System.out.println("Directory not exists, creating now");
-      success = directory.mkdir();
-      if (success) {
-        System.out.printf("Successfully created new directory : %s%n", dir);
+    if (!dir.isEmpty()) {
+      File directory = new File(dir);
+      if (directory.exists()) {
+        System.out.println("Directory already exists ...");
       } else {
-        System.out.printf("Failed to create new directory: %s%n", dir);
+        System.out.println("Directory not exists, creating now");
+        success = directory.mkdir();
+        if (success) {
+          System.out.printf("Successfully created new directory : %s%n", dir);
+        } else {
+          System.out.printf("Failed to create new directory: %s%n", dir);
+        }
       }
     }
     // Creating new file in Java, only if not exists
@@ -53,7 +56,7 @@ public class Main {
       System.out.println("Directory already exists ...");
     } else {
       System.out.println("Directory not exists, creating now");
-      success = directory.mkdir();
+      success = targetDirectory.mkdir();
       if (success) {
         System.out.printf("Successfully created new directory : %s%n", targetDir);
       } else {
@@ -75,7 +78,7 @@ public class Main {
     }
   }
 
-  public static void searchFile(){
+  public static void searchFile() {
     System.out.print("Enter file name"
         + "\n");
     Scanner reader = new Scanner(System.in);
@@ -90,11 +93,11 @@ public class Main {
       File[] files = root.listFiles();
       for (File f : files) {
         if (f.getName().startsWith("product")) {
-            for (File childFile : f.listFiles()) {
-              if (childFile.getName().equalsIgnoreCase(fileName)) {
-                return childFile;
-              }
+          for (File childFile : f.listFiles()) {
+            if (childFile.getName().equalsIgnoreCase(fileName)) {
+              return childFile;
             }
+          }
         }
       }
     } catch (Exception e) {
