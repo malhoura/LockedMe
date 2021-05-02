@@ -24,45 +24,42 @@ public class Main {
         + "\n4) Main menu");
   }
 
+  public static File createDirectoryIfNotExist(String directoryName){
+    File directory = new File(directoryName);
+    boolean success = false;
+    if (directory.exists()) {
+      System.out.println("Directory already exists ...");
+    } else {
+      System.out.println("Directory not exists, creating now");
+      success = directory.mkdir();
+      if (success) {
+        System.out.printf("Successfully created new directory : %s%n", directory);
+      } else {
+        System.out.printf("Failed to create new directory: %s%n", directory);
+      }
+    }
+    return directory;
+  }
+
   public static void createfile() throws IOException {
     Scanner reader = new Scanner(System.in);
     boolean success = false;
     System.out.println(
         "Enter path of directory to create. Enter nothing if you don't wish to create a new directory.");
-    String dir = reader.nextLine();
+    String dirName = reader.nextLine();
     // Creating new directory in Java, if it doesn't exists
-    if (!dir.isEmpty()) {
-      File directory = new File(dir);
-      if (directory.exists()) {
-        System.out.println("Directory already exists ...");
-      } else {
-        System.out.println("Directory not exists, creating now");
-        success = directory.mkdir();
-        if (success) {
-          System.out.printf("Successfully created new directory : %s%n", dir);
-        } else {
-          System.out.printf("Failed to create new directory: %s%n", dir);
-        }
-      }
+    if (!dirName.isEmpty()) {
+      createDirectoryIfNotExist(dirName);
     }
+
     // Creating new file in Java, only if not exists
     System.out.println("Enter file name to be created ");
     String filename = reader.nextLine();
+
+    //create file in specific directory
     System.out.println("Which Directory would you like to create this file in");
     String targetDir = reader.nextLine();
-
-    File targetDirectory = new File(targetDir);
-    if (targetDirectory.exists()) {
-      System.out.println("Directory already exists ...");
-    } else {
-      System.out.println("Directory not exists, creating now");
-      success = targetDirectory.mkdir();
-      if (success) {
-        System.out.printf("Successfully created new directory : %s%n", targetDir);
-      } else {
-        System.out.printf("Failed to create new directory: %s%n", targetDir);
-      }
-    }
+    createDirectoryIfNotExist(targetDir);
 
     File f = new File(targetDir, filename);
     if (f.exists()) {
