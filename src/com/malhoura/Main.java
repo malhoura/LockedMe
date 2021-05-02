@@ -26,15 +26,6 @@ public class Main {
         + "\n4) Main menu");
   }
 
-  public static void deleteFile() {
-    System.out.print("Enter file name to delete"
-        + "\n");
-    Scanner reader = new Scanner(System.in);
-    String fileName = reader.nextLine();
-    File fileToDelete = getFile(fileName);
-    fileToDelete.delete();
-  }
-
   public static void createfile() throws IOException {
     Scanner reader = new Scanner(System.in);
     boolean success = false;
@@ -88,15 +79,15 @@ public class Main {
 
   public static File getFile(String fileName) {
     File root = new File(".");
-    System.out.print("Root file " + root);
     try {
       File[] files = root.listFiles();
       for (File f : files) {
-        if (f.isFile()) {
-          if (f.getName().equalsIgnoreCase(fileName)) {
-            System.out.print("File " + f.getName());
-            return f;
-          }
+        if (f.getName().startsWith("customer")) {
+            for (File childFile : f.listFiles()) {
+              if (childFile.getName().equalsIgnoreCase(fileName)) {
+                return childFile;
+              }
+            }
         }
       }
     } catch (Exception e) {
@@ -105,16 +96,25 @@ public class Main {
     return null;
   }
 
-  public static void listFiles(String directoryName) {
-    File directory = new File(directoryName);
-    List<File> files = new ArrayList<>();
+  public static void deleteFile() {
+    System.out.print("Enter file name to delete"
+        + "\n");
+    Scanner reader = new Scanner(System.in);
+    String fileName = reader.nextLine();
+    File fileToDelete = getFile(fileName);
+    fileToDelete.delete();
+    System.out.println("Deleted File: " + fileToDelete.getName());
+  }
+
+  public static void listFiles() {
+    File directory = new File(".");
     // Get all files from a directory.
     File[] fList = directory.listFiles();
     for (File f : fList) {
-      if(f.getName().startsWith("customer")){
-        System.out.println("Directory Name ------- " + f.getName());
-        for(File childFile : f.listFiles()){
-          System.out.println("File " + childFile.getName());
+      if (f.getName().startsWith("customer")) {
+        System.out.println("Directory Name => " + f.getName());
+        for (File childFile : f.listFiles()) {
+          System.out.println("File => " + childFile.getName());
         }
       }
     }
@@ -136,7 +136,7 @@ public class Main {
       switch (menuItem) {
         case 1:
           //display all file
-          listFiles(".");
+          listFiles();
           break;
         case 2:
           displaySubMenu();
