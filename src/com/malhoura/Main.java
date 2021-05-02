@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Main {
 
   static int menuItem, subMenuItem;
-  static String dirName = "customers";
+  static String dirName = "/customers";
 
   public static void displayMainMenu() {
     System.out.println(""
@@ -58,6 +58,20 @@ public class Main {
     String filename = reader.nextLine();
     System.out.println("Which Directory would you like to create this file in");
     String targetDir = reader.nextLine();
+
+    File targetDirectory = new File(targetDir);
+    if (targetDirectory.exists()) {
+      System.out.println("Directory already exists ...");
+    } else {
+      System.out.println("Directory not exists, creating now");
+      success = directory.mkdir();
+      if (success) {
+        System.out.printf("Successfully created new directory : %s%n", targetDir);
+      } else {
+        System.out.printf("Failed to create new directory: %s%n", targetDir);
+      }
+    }
+
     File f = new File(targetDir, filename);
     if (f.exists()) {
       System.out.println("File already exists");
@@ -97,7 +111,12 @@ public class Main {
     // Get all files from a directory.
     File[] fList = directory.listFiles();
     for (File f : fList) {
-      System.out.print("file " + f.getName() + "\n");
+      if(f.getName().startsWith("customer")){
+        System.out.println("Directory Name ------- " + f.getName());
+        for(File childFile : f.listFiles()){
+          System.out.println("File " + childFile.getName());
+        }
+      }
     }
 
   }
@@ -117,7 +136,7 @@ public class Main {
       switch (menuItem) {
         case 1:
           //display all file
-          listFiles("./customer1");
+          listFiles(".");
           break;
         case 2:
           displaySubMenu();
