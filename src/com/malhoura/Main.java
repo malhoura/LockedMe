@@ -2,14 +2,12 @@ package com.malhoura;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-  static int menuItem, subMenuItem;
-  static String dirName = "/customers";
+  static int menuItem, subMenuItem ;
+  static String searchedFile;
 
   public static void displayMainMenu() {
     System.out.println(""
@@ -77,12 +75,21 @@ public class Main {
     }
   }
 
+  public static void searchFile(){
+    System.out.print("Enter file name"
+        + "\n");
+    Scanner reader = new Scanner(System.in);
+    String fileName = reader.nextLine();
+    File fileToSearch = getFile(fileName);
+    System.out.println("File found: " + fileToSearch.getName());
+  }
+
   public static File getFile(String fileName) {
     File root = new File(".");
     try {
       File[] files = root.listFiles();
       for (File f : files) {
-        if (f.getName().startsWith("customer")) {
+        if (f.getName().startsWith("product")) {
             for (File childFile : f.listFiles()) {
               if (childFile.getName().equalsIgnoreCase(fileName)) {
                 return childFile;
@@ -111,7 +118,7 @@ public class Main {
     // Get all files from a directory.
     File[] fList = directory.listFiles();
     for (File f : fList) {
-      if (f.getName().startsWith("customer")) {
+      if (f.getName().startsWith("product")) {
         System.out.println("Directory Name => " + f.getName());
         for (File childFile : f.listFiles()) {
           System.out.println("File => " + childFile.getName());
@@ -128,7 +135,6 @@ public class Main {
     final Scanner sc = new Scanner(System.in);
 
     boolean proceedMainMenu = true;
-    boolean proceedSubMenu = true;
     while (proceedMainMenu) {
       System.out.println("What would you like to do:");
       displayMainMenu();
@@ -144,6 +150,7 @@ public class Main {
           switch (subMenuItem) {
             case 1:
               //search file name
+              searchFile();
               break;
             case 2:
               //add file
@@ -161,9 +168,6 @@ public class Main {
           break;
         case 3:
           proceedMainMenu = false;
-          break;
-        default:
-          System.out.println("Unknown option");
           break;
       }
     }
