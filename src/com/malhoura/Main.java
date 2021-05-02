@@ -162,7 +162,6 @@ public class Main {
               break;
             case 4:
               //back to main menu
-              displayMainMenu();
               break;
           }
           break;
